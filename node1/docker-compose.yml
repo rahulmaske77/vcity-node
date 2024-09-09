@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  node0:
+    container_name: vcity-node1
+    image: vcity/validator
+    command:
+      - "./setup_genesis.sh && ./start.sh"
+    # restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:26657/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      vcitynet:
+        ipv4_address: 192.167.10.3
+    ports:
+      - "26556:26556"
+      - "26657:26657"
+      - "9090:9090"
+      - "1317:1317"
+      - "8545:8545"
+networks:
+  vcitynet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.167.10.0/26
