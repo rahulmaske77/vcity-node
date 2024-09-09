@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  node0:
+  node1:
     container_name: vcity-node1
     image: vcity/validator
     command:
