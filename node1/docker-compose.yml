@@ -13,7 +13,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      vcitynet:
+      node0_vcitynet:
         ipv4_address: 192.167.10.3
     ports:
       - "26566:26556"
@@ -23,5 +23,5 @@ services:
       - "8546:8545"
 
 networks:
-  vcitynet:
+  node0_vcitynet:
     external: true
