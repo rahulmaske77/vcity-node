@@ -47,7 +47,7 @@ $CHAIND tx staking create-validator \
     --commission-max-rate="0.20" \
     --commission-max-change-rate="0.01" \
     --min-self-delegation="1000000" \
-    --gas="auto" \
+    --gas="2000000" \
     --gas-prices="0.025$DENOM" \
     --from=$KEY \
     --node tcp://192.167.10.2:26657 \
