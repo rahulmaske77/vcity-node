@@ -30,10 +30,6 @@ RUN apt update -y && apt install jq bc -y
 # Copy over binaries from the build-env
 COPY --from=build-env /go/src/github.com/evmos/evmos/build/evmosd ./bin/
 
-COPY ./setup_genesis.sh ./setup_genesis.sh
-COPY ./start.sh ./start.sh
-COPY ./genesis.json ./genesis.json
-
 USER ${USERNAME}
 
 ENTRYPOINT ["/bin/bash", "-c"]

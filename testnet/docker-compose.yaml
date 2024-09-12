@@ -1,0 +1,127 @@
+version: '3'
+
+services:
+  node0:
+    container_name: node0
+    image: "vcity/validator"
+    environment:
+      - MONIKER=node0
+      - KEY=user0
+      - MNEMONIC=neither tent pull crush leave achieve jealous blood slush dumb claw furnace hill flight margin pattern theory biology relax celery odor pink rather ranch
+    volumes:
+      - ./share:/home/user/share:Z
+    command:
+      - cp ./share/setup_genesis.sh ./setup_genesis.sh && cp ./share/start.sh ./start.sh && ./setup_genesis.sh && ./start.sh
+    networks:
+      testnet:
+        ipv4_address: 192.167.10.2
+    # restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:26657/status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  node1:
+    container_name: node1
+    image: "vcity/validator"
+    depends_on:
+      - node0
+    environment:
+      - MONIKER=node1
+      - KEY=user1
+    volumes:
+      - ./share:/home/user/share:Z
+    command:
+      - cp ./share/start.sh ./start.sh && ./start.sh
+    networks:
+      testnet:
+        ipv4_address: 192.167.10.3
+    # restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:26657/status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  node2:
+    container_name: node2
+    image: "vcity/validator"
+    depends_on:
+      - node0
+    environment:
+      - MONIKER=node2
+      - KEY=user2
+    volumes:
+      - ./share:/home/user/share:Z
+    command:
+      - cp ./share/start.sh ./start.sh && ./start.sh
+    networks:
+      testnet:
+        ipv4_address: 192.167.10.4
+    # restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:26657/status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  node3:
+    container_name: node3
+    image: "vcity/validator"
+    depends_on:
+      - node0
+    environment:
+      - MONIKER=node3
+      - KEY=user3
+    volumes:
+      - ./share:/home/user/share:Z
+    ports:
+      - "26659-26660:26656-26657"
+      - "8546:8545"
+      - "1318:1317"
+    command:
+      - cp ./share/start.sh ./start.sh && ./start.sh
+    networks:
+      testnet:
+        ipv4_address: 192.167.10.5
+    # restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:26657/status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  node4:
+    container_name: node4
+    image: "vcity/validator"
+    depends_on:
+      - node0
+    environment:
+      - MONIKER=node4
+      - KEY=user4
+    volumes:
+      - ./share:/home/user/share:Z
+    ports:
+      - "26656-26657:26656-26657"
+      - "8545:8545"
+      - "1317:1317"
+    command:
+      - cp ./share/start.sh ./start.sh && ./start.sh
+    networks:
+      testnet:
+        ipv4_address: 192.167.10.6
+    # restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:26657/status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  testnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.167.10.0/26

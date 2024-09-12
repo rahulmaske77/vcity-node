@@ -30,15 +30,17 @@ fi
 case $COMMAND in
     build)
         echo "Building Docker image..."
-        docker build --no-cache --tag vcity/validator ./docker --build-arg USERNAME=$USER
+        docker build --no-cache --tag vcity/validator . --build-arg USERNAME=$USER
         ;;
     start)
         echo "Starting ${NODE}..."
-        docker-compose -f ${NODE_DIR}/docker-compose.yml up -d
+        docker-compose -f ${NODE_DIR}/docker-compose.yaml up node0 -d
+        sleep 5
+        docker-compose -f ${NODE_DIR}/docker-compose.yaml up -d
         ;;
     stop)
         echo "Stopping ${NODE}..."
-        docker-compose -f ${NODE_DIR}/docker-compose.yml down
+        docker-compose -f ${NODE_DIR}/docker-compose.yaml down
         ;;
     *)
         echo "Invalid command: $COMMAND"
