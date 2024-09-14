@@ -1,0 +1,3 @@
+[submodule "scripts/extensions"]
+	path = scripts/extensions
+	url = https://github.com/evmos/extensions
