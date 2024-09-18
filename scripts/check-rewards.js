@@ -10,7 +10,7 @@ const distribution = require("./extensions/precompiles/abi/distribution.json");
 
 const distributionContract = new ethers.Contract(distributionAddress, distribution, provider);
 
-const delegatorAddress = "0x1bdd429e96efEe051e83c9b30C584b4DDd999C49";
+const delegatorAddress = "0x7cB61D4117AE31a12E393a1Cfa3BaC666481D02E";
 distributionContract.delegationTotalRewards(delegatorAddress)
     .then((result) => {
         // parse rewards for each validator
