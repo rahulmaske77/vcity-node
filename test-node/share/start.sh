@@ -2,7 +2,7 @@
 
 set -e
 
-BIN_DIR="/home/user/bin"
+BIN_DIR="/home/${USER}/bin"
 if ! echo "$PATH" | tr ':' '\n' | grep -q "$BIN_DIR"; then
     export PATH="$PATH:$BIN_DIR"
 fi
