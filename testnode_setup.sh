@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 bash ./manage_node.sh build
 
