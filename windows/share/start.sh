@@ -28,7 +28,7 @@ APP_CONFIG=$CONF_DIR/app.toml
 if [[ ! -d $DATA_DIR ]]; then
     echo "Init $CHAIN with moniker=$MONIKER and chain-id=$CHAINID"
     $CHAIND init "$MONIKER" --chain-id "$CHAINID" --home "$DATA_DIR"
-    cp $SHARE_DIR/genesis.json $GENESIS
+    cp $BUILD_DIR/genesis.json $GENESIS
 fi
 
 sed -i 's/prometheus = false/prometheus = true/g' $CONFIG
