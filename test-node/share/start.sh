@@ -11,7 +11,7 @@ fi
 DENOM="vcity"
 
 CHAIN="vcitychain"
-CHAINID="$CHAIN"_2023825-1
+CHAINID="$CHAIN"_20230825-1
 
 CHAIND="evmosd"
 
@@ -44,7 +44,7 @@ sed -i 's/api = "[^"]*"/api = "web3,eth,debug,personal,net"/' "$APP_CONFIG"
 sed -i 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/' "$APP_CONFIG"
 sed -i 's/swagger = false/swagger = true/g' "$APP_CONFIG"
 sed -i.bak '/[grpc-web]/,/^\s*$/{/enable = false/s/enable = false/enable = true/}' "$APP_CONFIG"
-sed -i "s/^seeds = .*/seeds = "\"d86c368f49cb6d0daf995d95a21f34c7688683af@207.81.171.181:26656\""/" $CONFIG
+sed -i "s/^seeds = .*/seeds = "\"c709a70a86ff41d9eddcaf055da4cbe032abf6e8@207.81.171.181:26656\""/" $CONFIG
 
 # pruning settings
 # if pruning is defined
