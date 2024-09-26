@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  node0:
+    container_name: node0
+    image: "vcity/validator"
+    environment:
+      - MONIKER=node0
+      - KEY=user0
+      - MNEMONIC=neither tent pull crush leave achieve jealous blood slush dumb claw furnace hill flight margin pattern theory biology relax celery odor pink rather ranch
+    volumes:
+      - ./share:/home/user/share:Z
+      - ./node0:/home/user/.vcity:Z
+    command:
+      # - cp ./share/setup_genesis.sh ./setup_genesis.sh && cp ./share/start.sh ./start.sh && ./setup_genesis.sh && ./start.sh
+      - tail -f /dev/null
+    # restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:26657/status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5

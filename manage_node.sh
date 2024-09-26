@@ -30,7 +30,23 @@ fi
 case $COMMAND in
     build)
         echo "Building Docker image..."
-        docker build --no-cache --tag vcity/validator . --build-arg USERNAME=$USER
+        if [ -z "$2" ]; then
+            echo "No build type specified."
+            echo "Usage: $0 build <build_type>"
+            exit 2
+        else
+            BUILD_TYPE=$2
+            echo "Build type is: $BUILD_TYPE"
+            if [ "$BUILD_TYPE" = "devnet" ]; then
+                docker build --no-cache --tag vcity/validator . --build-arg USERNAME=$USER
+            elif [ "$BUILD_TYPE" = "testnet" ]; then
+                docker build --no-cache --tag vcity/validator . --build-arg USERNAME="user"
+            else
+                echo "Invalid build type: $BUILD_TYPE"
+                echo "Usage: $0 build {devnet|testnet}"
+                exit 2
+            fi
+        fi
         ;;
     start)
         echo "Starting ${NODE}..."

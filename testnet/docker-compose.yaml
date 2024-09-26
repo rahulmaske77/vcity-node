@@ -10,6 +10,7 @@ services:
       - MNEMONIC=neither tent pull crush leave achieve jealous blood slush dumb claw furnace hill flight margin pattern theory biology relax celery odor pink rather ranch
     volumes:
       - ./share:/home/user/share:Z
+      - ./node0:/home/user/.vcity:Z
     command:
       - cp ./share/setup_genesis.sh ./setup_genesis.sh && cp ./share/start.sh ./start.sh && ./setup_genesis.sh && ./start.sh
     networks:
@@ -32,6 +33,7 @@ services:
       - KEY=user1
     volumes:
       - ./share:/home/user/share:Z
+      - ./node1:/home/user/.vcity:Z
     command:
       - cp ./share/start.sh ./start.sh && ./start.sh
     networks:
@@ -54,6 +56,7 @@ services:
       - KEY=user2
     volumes:
       - ./share:/home/user/share:Z
+      - ./node2:/home/user/.vcity:Z
     command:
       - cp ./share/start.sh ./start.sh && ./start.sh
     networks:
@@ -76,6 +79,7 @@ services:
       - KEY=user3
     volumes:
       - ./share:/home/user/share:Z
+      - ./node3:/home/user/.vcity:Z
     ports:
       - "26659-26660:26656-26657"
       - "8546:8545"
@@ -102,6 +106,7 @@ services:
       - KEY=user4
     volumes:
       - ./share:/home/user/share:Z
+      - ./node4:/home/user/.vcity:Z
     ports:
       - "26656-26657:26656-26657"
       - "8545:8545"
