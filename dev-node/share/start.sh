@@ -2,8 +2,7 @@
 
 set -e
 
-CURRENT_USER=$(whoami)
-BIN_DIR="/home/${CURRENT_USER}/bin"
+BIN_DIR="/home/user/bin"
 if ! echo "$PATH" | tr ':' '\n' | grep -q "$BIN_DIR"; then
     export PATH="$PATH:$BIN_DIR"
 fi
@@ -29,6 +28,9 @@ if [[ ! -d $DATA_DIR ]]; then
     echo "Init $CHAIN with moniker=$MONIKER and chain-id=$CHAINID"
     $CHAIND init "$MONIKER" --chain-id "$CHAINID" --home "$DATA_DIR"
     cp $SHARE_DIR/genesis.json $GENESIS
+    cp $SHARE_DIR/client.toml $CONF_DIR
+    cp $SHARE_DIR/app.toml $CONF_DIR
+    cp $SHARE_DIR/config.toml $CONF_DIR
 fi
 
 sed -i 's/prometheus = false/prometheus = true/g' $CONFIG
@@ -42,9 +44,6 @@ sed -i 's/127.0.0.1/0.0.0.0/g' "$APP_CONFIG"
 sed -i 's/localhost/0.0.0.0/g' "$APP_CONFIG"
 sed -i 's/api = "[^"]*"/api = "web3,eth,debug,personal,net"/' "$APP_CONFIG"
 sed -i 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/' "$APP_CONFIG"
-sed -i 's/swagger = false/swagger = true/g' "$APP_CONFIG"
-sed -i.bak '/[grpc-web]/,/^\s*$/{/enable = false/s/enable = false/enable = true/}' "$APP_CONFIG"
-sed -i "s/^seeds = .*/seeds = "\"d86c368f49cb6d0daf995d95a21f34c7688683af@207.81.171.181:26656\""/" $CONFIG
 
 # pruning settings
 # if pruning is defined
@@ -63,5 +62,4 @@ echo "./"$CHAIND" start "$pruning" --rpc.unsafe --keyring-backend test --home "$
 $CHAIND start --rpc.unsafe \
 --json-rpc.enable true --api.enable \
 --keyring-backend test --home $DATA_DIR --chain-id $CHAINID $EXTRA_FLAGS \
---api.enabled-unsafe-cors true \
---api.enable true
+--api.enabled-unsafe-cors
