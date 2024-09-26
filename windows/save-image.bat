@@ -1,0 +1,1 @@
+docker save -o myimage.tar vcity/validator:latest
