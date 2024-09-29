@@ -7,7 +7,7 @@ if ! echo "$PATH" | tr ':' '\n' | grep -q "$BIN_DIR"; then
     export PATH="$PATH:$BIN_DIR"
 fi
 
-DENOM="vcity"
+DENOM_UNIT="uvcity"
 
 CHAIN="vcitychain"
 CHAINID="$CHAIN"_20230825-1
@@ -55,7 +55,7 @@ cp $SHARE_DIR/config.toml $CONF_DIR
 sed -i 's/prometheus = false/prometheus = true/g' $CONFIG
 sed -i 's/enable-indexer = false/enable-indexer = true/g' $APP_CONFIG
 perl -i -0pe 's/# Enable defines if the API server should be enabled.\nenable = false/# Enable defines if the API server should be enabled.\nenable = true/' $APP_CONFIG
-sed -i.bak "s/aevmos/$DENOM/g" $APP_CONFIG
+sed -i.bak "s/aevmos/$DENOM_UNIT/g" $APP_CONFIG
 
 # make sure the localhost IP is 0.0.0.0
 sed -i 's/pprof_laddr = "localhost:6060"/pprof_laddr = "0.0.0.0:6060"/g' "$CONFIG"
