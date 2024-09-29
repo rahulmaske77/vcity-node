@@ -44,7 +44,7 @@ sed -i 's/api = "[^"]*"/api = "web3,eth,debug,personal,net"/' "$APP_CONFIG"
 sed -i 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/' "$APP_CONFIG"
 sed -i 's/swagger = false/swagger = true/g' "$APP_CONFIG"
 sed -i.bak '/[grpc-web]/,/^\s*$/{/enable = false/s/enable = false/enable = true/}' "$APP_CONFIG"
-sed -i "s/^seeds = .*/seeds = "\"61474a26277deb1cd61382ef29c2992b1358c02a@207.81.171.181:26656,7102730f4a725b93d09089839c83981afccb7832@207.81.171.181:26659\""/" $CONFIG
+sed -i "s/^seeds = .*/seeds = "\"61474a26277deb1cd61382ef29c2992b1358c02a@207.102.185.116:26656,7102730f4a725b93d09089839c83981afccb7832@207.102.185.116:26659\""/" $CONFIG
 
 # pruning settings
 # if pruning is defined
