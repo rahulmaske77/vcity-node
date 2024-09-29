@@ -1,3 +1,4 @@
 scripts/node_modules
 node_modules
 windows/myimage*
+testnet/node*
