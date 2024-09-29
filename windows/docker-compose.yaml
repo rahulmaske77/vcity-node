@@ -10,6 +10,7 @@ services:
       - MNEMONIC=neither tent pull crush leave achieve jealous blood slush dumb claw furnace hill flight margin pattern theory biology relax celery odor pink rather ranch
     volumes:
       - ./share:/home/user/share
+      - ./.vcity:/home/user/.vcity
     command: 
       - cp ./share/genesis.json ./genesis.json && cp ./share/start.sh ./start.sh && chmod +x ./start.sh && ./start.sh
       # - tail -f /dev/null
