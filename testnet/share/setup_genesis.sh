@@ -40,7 +40,7 @@ echo "Build directory: $BUILD_DIR"
 SHARE_DIR=$BUILD_DIR/share
 echo "Share directory: $SHARE_DIR"
 # Node data directory, which is the working directory of the node
-DATA_DIR=$BUILD_DIR/$NODE_NAME/.vcity
+DATA_DIR=$BUILD_DIR/.vcity
 echo "Data directory: $DATA_DIR"
 # Node configuration directory
 CONF_DIR=$DATA_DIR/config
@@ -52,17 +52,24 @@ CONFIG=$CONF_DIR/config.toml
 GENESIS=$CONF_DIR/genesis.json
 TEMP_GENESIS=$CONF_DIR/tmp_genesis.json
 
+
+
 # Check if the data directory exists
 if [[ ! -d $DATA_DIR ]]; then
     echo "Creating data directory: $DATA_DIR"
     mkdir -p "$DATA_DIR"
 fi
 
+if [ -f "$GENESIS" ]; then
+    echo "The file specified by GENESIS exists."
+    exit
+fi
+
 echo "Create and add $KEY keys"
 # Create and add keys
-$CHAIND keys add "$KEY" --home "$DATA_DIR" --chain-id "$CHAINID"
+# $CHAIND keys add "$KEY" --home "$DATA_DIR" --chain-id "$CHAINID"
+echo "$MNEMONIC" | $CHAIND keys add "$KEY" --home "$DATA_DIR" --chain-id "$CHAINID" --keyring-backend test --recover
 
-# echo "$MNEMONIC" | $CHAIND keys add "$KEY" --home "$DATA_DIR" --chain-id "$CHAINID" --keyring-backend test --recover
 echo "Init $CHAIN with moniker=$MONIKER and chain-id=$CHAINID"
 $CHAIND init "$MONIKER" --chain-id "$CHAINID" --home "$DATA_DIR"
 
@@ -71,9 +78,12 @@ echo "- Set gas limit in genesis"
 jq '.consensus_params["block"]["max_gas"]="40000000"' "$GENESIS" > "$TEMP_GENESIS" && mv "$TEMP_GENESIS" "$GENESIS"
 
 echo "- Set $DENOM as denom"
-sed -i.bak "s/aphoton/$DENOM/g" $GENESIS
-sed -i.bak "s/stake/$DENOM/g" $GENESIS
-sed -i.bak "s/aevmos/$DENOM/g" $GENESIS
+sed -i.bak "s/aphoton/$DENOM_UNIT/g" $GENESIS
+sed -i.bak "s/stake/$DENOM_UNIT/g" $GENESIS
+sed -i.bak "s/aevmos/$DENOM_UNIT/g" $GENESIS
+
+jq '.app_state["bank"]["denom_metadata"] |= . + [{"description": "The native staking token of the Vcity Chain.", "denom_units": [{"denom": "uVCITY", "exponent": 0}, {"denom": "VCITY", "exponent": 18}], "base": "uVCITY", "display": "VCITY", "name": "Vcity Token", "symbol": "VCITY"}]' $GENESIS > new_genesis.json && mv new_genesis.json $GENESIS
+
 
 # Change proposal periods to pass within a reasonable time for local testing
 sed -i.bak 's/"max_deposit_period": "172800s"/"max_deposit_period": "600s"/g' "$GENESIS"
@@ -81,11 +91,11 @@ sed -i.bak 's/"voting_period": "172800s"/"voting_period": "600s"/g' "$GENESIS"
 
 echo "- Allocate genesis accounts"
 $CHAIND add-genesis-account \
-"$($CHAIND keys show $KEY -a --home $DATA_DIR --keyring-backend test)" 100000000000000000000000000$DENOM \
+"$($CHAIND keys show $KEY -a --home $DATA_DIR --keyring-backend test)" 600000000000000000000000000$DENOM_UNIT \
 --home $DATA_DIR --keyring-backend test
 
 echo "- Sign genesis transaction"
-$CHAIND gentx $KEY 100000000000000000000000$DENOM --keyring-backend test --home $DATA_DIR --chain-id $CHAINID
+$CHAIND gentx $KEY 100000000000000000000000000$DENOM_UNIT --keyring-backend test --home $DATA_DIR --chain-id $CHAINID
 
 echo "- Add all other validators genesis accounts"
 addresses=(
@@ -96,7 +106,7 @@ addresses=(
 )
 for address in "${addresses[@]}"; do
     echo "Adding genesis account for address: $address"
-    $CHAIND add-genesis-account  "$address" 50000000000000000000000000$DENOM --home $DATA_DIR --keyring-backend test
+    $CHAIND add-genesis-account  "$address" 100000000000000000000000000$DENOM_UNIT --home $DATA_DIR --keyring-backend test
     [ $? -eq 0 ] && echo "$address added" || echo "$address failed"
 done
 

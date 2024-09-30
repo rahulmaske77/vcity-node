@@ -8,11 +8,13 @@ services:
       - MONIKER=node0
       - KEY=user0
       - MNEMONIC=neither tent pull crush leave achieve jealous blood slush dumb claw furnace hill flight margin pattern theory biology relax celery odor pink rather ranch
+      - NODE_NAME=node0
     volumes:
       - ./share:/home/user/share:Z
       - ./node0:/home/user/.vcity:Z
     command:
       - cp ./share/setup_genesis.sh ./setup_genesis.sh && cp ./share/start.sh ./start.sh && ./setup_genesis.sh && ./start.sh
+      # - tail -f /dev/null
     networks:
       testnet:
         ipv4_address: 192.167.10.2
@@ -31,6 +33,7 @@ services:
     environment:
       - MONIKER=node1
       - KEY=user1
+      - NODE_NAME=node1
     volumes:
       - ./share:/home/user/share:Z
       - ./node1:/home/user/.vcity:Z
@@ -54,6 +57,7 @@ services:
     environment:
       - MONIKER=node2
       - KEY=user2
+      - NODE_NAME=node2
     volumes:
       - ./share:/home/user/share:Z
       - ./node2:/home/user/.vcity:Z
@@ -77,6 +81,7 @@ services:
     environment:
       - MONIKER=node3
       - KEY=user3
+      - NODE_NAME=node3
     volumes:
       - ./share:/home/user/share:Z
       - ./node3:/home/user/.vcity:Z
@@ -104,6 +109,7 @@ services:
     environment:
       - MONIKER=node4
       - KEY=user4
+      - NODE_NAME=node4
     volumes:
       - ./share:/home/user/share:Z
       - ./node4:/home/user/.vcity:Z

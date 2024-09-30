@@ -8,7 +8,7 @@ if ! echo "$PATH" | tr ':' '\n' | grep -q "$BIN_DIR"; then
     export PATH="$PATH:$BIN_DIR"
 fi
 
-DENOM="vcity"
+DENOM_UNIT="vcity"
 
 CHAIN="vcitychain"
 CHAINID="$CHAIN"_20230825-1
@@ -34,7 +34,7 @@ fi
 sed -i 's/prometheus = false/prometheus = true/g' $CONFIG
 sed -i 's/enable-indexer = false/enable-indexer = true/g' $APP_CONFIG
 perl -i -0pe 's/# Enable defines if the API server should be enabled.\nenable = false/# Enable defines if the API server should be enabled.\nenable = true/' $APP_CONFIG
-sed -i.bak "s/aevmos/$DENOM/g" $APP_CONFIG
+sed -i.bak "s/aevmos/$DENOM_UNIT/g" $APP_CONFIG
 
 # make sure the localhost IP is 0.0.0.0
 sed -i 's/pprof_laddr = "localhost:6060"/pprof_laddr = "0.0.0.0:6060"/g' "$CONFIG"
@@ -44,7 +44,7 @@ sed -i 's/api = "[^"]*"/api = "web3,eth,debug,personal,net"/' "$APP_CONFIG"
 sed -i 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/' "$APP_CONFIG"
 sed -i 's/swagger = false/swagger = true/g' "$APP_CONFIG"
 sed -i.bak '/[grpc-web]/,/^\s*$/{/enable = false/s/enable = false/enable = true/}' "$APP_CONFIG"
-sed -i "s/^seeds = .*/seeds = "\"fdce9e8aee30009968ccac0e7b62f2e258ed65f4@207.81.171.181:26656\""/" $CONFIG
+sed -i "s/^seeds = .*/seeds = "\"61474a26277deb1cd61382ef29c2992b1358c02a@207.102.185.116:26656,7102730f4a725b93d09089839c83981afccb7832@207.102.185.116:26659\""/" $CONFIG
 
 # pruning settings
 # if pruning is defined

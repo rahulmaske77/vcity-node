@@ -6,7 +6,7 @@
 ###############################################################################
 
 # The network chain ID
-chain-id = "vcitychain_2023825-1"
+chain-id = "vcitychain_20230825-1"
 # The keyring's backend, where the keys are stored (os|file|kwallet|pass|test|memory)
 keyring-backend = "os"
 # CLI output format (text|json)
